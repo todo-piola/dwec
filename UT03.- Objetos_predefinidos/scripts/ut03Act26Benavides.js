@@ -1,4 +1,4 @@
-// Guardar cookie con el tema del tablero ("oscuro" o "claro") y ultima pieza movida
+// Guardar cookie con el tema del tablero ("oscuro" o "claro") y última pieza movida
 setCookie("tema_tablero", "oscuro", 7)
 setCookie("ultima_pieza", "caballo", 7)
 
@@ -18,20 +18,21 @@ if(ultima_visita){
 // ----- PERSONALIZAR TEXTOS CON ALMACENAMIENTO LOCAL-----
 let idioma = localStorage.getItem("idioma")
 
+// TODO: Modificar el siguiente bloque de código con diccionario de traducciones para cada idioma
 if(idioma === "es") {
     const trabajando = document.getElementById("trabajando")
     const cambiarlenguaje = document.getElementById("cambiarlenguaje")
-    const reestablecer = document.getElementById("reestablecer")
+    const restablecer = document.getElementById("restablecer")
     trabajando.textContent = "Trabajando con Cookies"
     cambiarlenguaje.textContent = "Cambiar lenguaje"
-    reestablecer.textContent = "Reiniciar preferencias"
+    restablecer.textContent = "Reiniciar preferencias"
 } else if(idioma === "en") {
     const trabajando = document.getElementById("trabajando")
     const cambiarlenguaje = document.getElementById("cambiarlenguaje")
-    const reestablecer = document.getElementById("reestablecer")
+    const restablecer = document.getElementById("restablecer")
     trabajando.textContent = "Working with Cookies"
     cambiarlenguaje.textContent = "Change language"
-    reestablecer.textContent = "Reset preferences"
+    restablecer.textContent = "Reset preferences"
 } else {
     localStorage.setItem("idioma", "es")
 }
@@ -39,6 +40,7 @@ if(idioma === "es") {
 const cambiar_lenguaje = document.getElementById("cambiarlenguaje")
 cambiar_lenguaje.addEventListener("click", () => {
     let idioma = localStorage.getItem("idioma")
+
     if(idioma === "es") {
         localStorage.setItem("idioma", "en")
         location.reload()
