@@ -32,7 +32,7 @@ for (let i = 1; i <= 64; i++) {
   board.append(div);
 }
 
-// Recojo casilla e2 y le añádo un evento
+// Recojo casilla e2 y le añado un evento
 const seleccionada = document.querySelector(".e2")
 
 seleccionada.addEventListener("click", () => {
