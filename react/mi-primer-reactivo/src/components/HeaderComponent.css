@@ -1,0 +1,25 @@
+header {
+  padding: 5px;
+  background-color: chocolate;
+
+  .title{
+    text-align: center  ;
+  }
+}
+
+ul{
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+
+  li{
+    padding: 10px;
+  }
+
+  .link{
+    text-decoration: none;
+    color: black;
+  }
+}
+
+
