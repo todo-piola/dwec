@@ -7,10 +7,6 @@ import { useEffect, useState } from 'react'
 
 function App() {
 
-  useEffect(() => {
-    console.log("Ejecución cada vez que se renderiza el componente")
-  })
-
   const [number, setNumber] = useState(0);
 
   const addOne = () => {
@@ -45,6 +41,17 @@ function App() {
 
   const condition = false
 
+  const [showMovies, setShowMovies] = useState(true)
+
+  /* useEffect(() => {
+    console.log("Ejecución cada vez que se renderiza el componente")
+  })
+
+  useEffect(() => {
+    console.log("Ejecución con cada cambio de variable reactiva user")
+  }, [user])
+  */
+
   return (
     <>
       <HeaderComponent greetings={greetings} links={links}/>
@@ -54,11 +61,8 @@ function App() {
         <input type="text" placeholder={myPlaceholder} onChange={handleChange} />
         <br/>
         <br/>
-        <br/>
-        <br/>
-        <MovieList />
-
         <h2>Conteo: {number}</h2>
+        <ButtonComponent addOne={addOne}/>
 
         {condition && <h2> La condición se cumple </h2>}
         {!condition && <h2> La condición NO se cumple </h2>}
@@ -68,9 +72,11 @@ function App() {
           <h2> La condición NO se cumple </h2>
         )
         }
+        <br/>
+        <br/>
+        <button onClick={() => setShowMovies(!showMovies)}>Toggle Movies</button>
+        {showMovies && <MovieList />}
       </main>
-
-      <ButtonComponent addOne={addOne}/>
     </>
   )
 }
