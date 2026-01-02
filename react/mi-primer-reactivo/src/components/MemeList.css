@@ -1,0 +1,33 @@
+.meme-list {
+  list-style: none;        /* Quita los puntos */
+  padding: 0;
+  margin: 0;
+
+  display: flex;           /* Coloca los li uno debajo de otro */
+  flex-direction: column;
+  gap: 24px;               /* Espacio entre memes */
+}
+
+/* Estilo de cada meme */
+.meme-list li {
+  background-color: #f4f4f4;
+  padding: 16px;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título del meme */
+.meme-list h2 {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Imagen del meme */
+.meme-img {
+  max-width: 100%;         /* Nunca se sale del contenedor */
+  height: auto;            /* Mantiene proporción */
+  border-radius: 6px;
+}

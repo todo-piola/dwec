@@ -4,6 +4,7 @@ import ButtonComponent from './components/ButtonComponent.jsx'
 import Login from './components/Login.jsx'
 import MovieList from './components/MovieList.jsx'
 import { useEffect, useState } from 'react'
+import MemeList from './components/MemeList.jsx'
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
     <>
       <HeaderComponent greetings={greetings} links={links}/>
       <main>
+        <MemeList/>
         {user.username && <h2 onClick={sayHello}> Hola {user.username} </h2> }
         <Login handleLogin={login}/>
         <input type="text" placeholder={myPlaceholder} onChange={handleChange} />
