@@ -1,0 +1,23 @@
+.selected-pokemon {
+  display: flex;
+  justify-content: center;
+}
+
+.pokemon-container {
+  display: flex;
+  width: 300px;
+  gap: 10px;
+  background-color: #f39f5f;
+  flex-direction: column;
+  align-items: center;
+  text-transform: capitalize;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.25s;
+  text-decoration: none;
+}

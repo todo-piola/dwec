@@ -2,7 +2,7 @@ import PokemonCard from './PokemonCard.jsx'
 import './PokemonList.css'
 import { useEffect, useState } from 'react'
 
-export default function PokemonList () {
+export default function PokemonList (props) {
   const [pokemons, setPokemons] = useState([]); // Variable reactiva
 
 
@@ -27,7 +27,13 @@ export default function PokemonList () {
   }
 
   const pokemonCards = pokemons.map((pokemon) => {  // Mapeo los pokemons para renderizarlos
-    return <PokemonCard key={pokemon.id} pokemon={pokemon}/>
+    return (
+    <PokemonCard
+      key={pokemon.id}
+      pokemon={pokemon}
+      selectPokemon={props.selectPokemon}
+    />
+    )
   })
 
   return ( // Renderiza el componente con los pokemons
