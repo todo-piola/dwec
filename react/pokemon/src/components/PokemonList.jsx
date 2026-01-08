@@ -40,7 +40,7 @@ export default function PokemonList (props) {
   return (
     <div>
       <GetForm getPokemons={getPokemons}/>
-      <ul cassName="pokemon-list">{pokemonCards}</ul>
+      <ul className="pokemon-list">{pokemonCards}</ul>
     </div>
   )
 }

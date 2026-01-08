@@ -1,0 +1,17 @@
+.factos-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #f39f5f;
+  padding: 50px;
+}
+
+.facto-item{
+  margin: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #ccc;
+  cursor: pointer;
+  color: #000;
+  font-size: 1.5em;
+}
