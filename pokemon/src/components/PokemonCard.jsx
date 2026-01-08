@@ -1,7 +1,7 @@
 import './PokemonCard.css'
 
 function PokemonCard (props) {
-  const { pokemon } = props;
+  const { pokemon } = props; // Recoge la propiedad pokemon del componente padre
 
   return (
     pokemon.id ? (
