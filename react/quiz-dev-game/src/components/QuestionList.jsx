@@ -4,6 +4,7 @@ import QuestionCard from './QuestionCard.jsx'
 
 function QuestionList () {
   const [questions, setQuestions] = useState([])
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -12,7 +13,7 @@ function QuestionList () {
         const preguntasFormateadas = res.data.results.map((questionItem, index) => {
           const respuestas = [...questionItem.incorrect_answers, questionItem.correct_answer]
           return {
-            id: `${index} - ${Date.now()}`,
+            id: index,
             question: questionItem.question,
             correct_answer: questionItem.correct_answer,
             options: respuestas.sort(() => Math.random() - 0.5)
@@ -20,8 +21,11 @@ function QuestionList () {
         })
         setQuestions(preguntasFormateadas)
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
   },[])
+
+  if (loading) return <p className="loading-msg">Cargando preguntas...</p>;
 
   return (
     <QuestionCard questions={questions}/>
