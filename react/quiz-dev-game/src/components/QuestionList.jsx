@@ -1,32 +1,30 @@
-function QuestionList () {
-  const token = "E8gicbMZ65qiMyVBRjknQDZbrDuaT2ZJZLRpimsJ"
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import QuestionCard from './QuestionCard.jsx'
 
+function QuestionList () {
   const [questions, setQuestions] = useState([])
 
-  const fetchQuestions = async (url) => {
-    const response = await fetch(url, {
-        headers: {
-          "X-Api-Key": token
-        }
-    })
-
-    if(!response.ok) {
-      throw new Error("Error al obtener las preguntas")
-    }
-
-    const data = await response.json()
-    return data
-  }
-
   useEffect(() => {
-    fetchQuestions("https://quizapi.io/api/v1/questions?limit=5")
-      .then(setQuestions)
-      .catch(console.error);
-  }, []); // Estos [] son para que se monte sólo una vez
-
+    axios
+      .get("https://opentdb.com/api.php?amount=10&category=20")
+      .then((res) => {
+        const preguntasFormateadas = res.data.results.map((questionItem, index) => {
+          const respuestas = [...questionItem.incorrect_answers, questionItem.correct_answer]
+          return {
+            id: `${index} - ${Date.now()}`,
+            question: questionItem.question,
+            correct_answer: questionItem.correct_answer,
+            options: respuestas.sort(() => Math.random() - 0.5)
+          }
+        })
+        setQuestions(preguntasFormateadas)
+      })
+      .catch((error) => console.error(error));
+  },[])
 
   return (
-    <div>QuestionList</div>
+    <QuestionCard questions={questions}/>
   )
 }
 
