@@ -3,14 +3,14 @@ function QuestionCard (props) {
   const {questions} = props
 
   const HTMLQuestions = questions.map((question) => (
-    <li key={question.id}>
+    <h3 key={question.id}>
       <div>{question.question}</div>
       <ul>
         {question.options.map((option, index) => (
           <li key={index}>{option}</li>
         ))}
       </ul>
-    </li>
+    </h3>
   ))
 
   return (
