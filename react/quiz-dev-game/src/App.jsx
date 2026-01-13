@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <h1>Quiz Dev Game</h1>
+      <h1>Trivia Game</h1>
       <QuestionList/>
     </>
   )
