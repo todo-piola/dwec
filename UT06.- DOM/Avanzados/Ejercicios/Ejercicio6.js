@@ -1,7 +1,7 @@
 
 const letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
-let gameState = {
+export let gameState = {
   pieces: [
     ...letras.map(letra => ({ tipo: "peon", color: "blanco", pos: `${letra}2`, emoji: "♙" })),
     { tipo: "torre", color: "blanco", pos: "a1", emoji: "♖" },
@@ -27,7 +27,7 @@ let gameState = {
 
 renderPieces(gameState);
 
-function renderPieces(state) {
+ export function renderPieces(state) {
   const tablero = document.getElementsByClassName("tablero");
 
   for(const pieza of state.pieces) {

@@ -1,4 +1,5 @@
-import {board} from './Ejercicio4.js'
+import {gameState} from "./Ejercicio6.js"
+import { handleTableroClick } from "./Ejercicio5.js"
 
 let selectedPosition = null;
 
@@ -9,13 +10,11 @@ board.addEventListener("click", (event) => {
   document.querySelectorAll(".highlight")
     .forEach(sq => sq.classList.remove("highlight"));
 
-
-  if(square.textContent === "♟" || square.textContent === "♙") {
+  if (square.textContent === "♙") {
     selectedPosition = square.dataset.pos;
 
     const file = selectedPosition[0];
-    const direction = square.textContent === "♙" ? 1 : -1;
-    const nextRank = Number(selectedPosition[1]) + direction;
+    const nextRank = Number(selectedPosition[1]) + 1;
 
     const target = document.querySelector(`[data-pos="${file}${nextRank}"]`);
     if (target) target.classList.add("highlight");

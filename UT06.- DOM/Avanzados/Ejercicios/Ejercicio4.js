@@ -1,4 +1,3 @@
-import {board} from "./Ejercicio1.js"
 
 const esPar = num => num % 2 === 0;
 
@@ -8,15 +7,14 @@ let contadorLetras = 7
 let contadorNumeros = 7
 
 
+export let board = document.getElementById("board")
 
-let divTablero = document.createElement("div")
+board.style.display = "grid"
+board.style.gridTemplateColumns = "repeat(8, 50px)"
+board.style.width = "400px"
+board.className = "tablero"
 
-divTablero.style.display = "grid"
-divTablero.style.gridTemplateColumns = "repeat(8, 50px)"
-divTablero.style.width = "400px"
-divTablero.className = "tablero"
-
-document.body.append(divTablero)
+document.body.append(board)
 
 
 createBoard(board)
@@ -44,8 +42,9 @@ function createBoard(board) {
     casilla.style.height = "50px";
     casilla.style.border = "1px solid black";
     casilla.style.margin = "0";
+    casilla.className = "square"
 
-    divTablero.append(casilla)
+    board.append(casilla)
 
     contadorLetras--;
   }
