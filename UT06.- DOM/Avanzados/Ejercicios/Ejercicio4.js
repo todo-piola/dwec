@@ -10,9 +10,11 @@ let contadorNumeros = 7
 
 
 let divTablero = document.createElement("div")
-divTablero.classList.add("tableroCasillas")
-divTablero.style.display = "flex"
-divTablero.style.flexWrap = "wrap"
+
+divTablero.style.display = "grid"
+divTablero.style.gridTemplateColumns = "repeat(8, 50px)"
+divTablero.style.width = "400px"
+
 document.body.append(divTablero)
 
 
@@ -29,18 +31,15 @@ function createBoard(board) {
     if (contadorLetras < 0) {
       contadorLetras = 7;
       contadorNumeros--;
-      divTablero = document.createElement("div")
-      document.body.append(divTablero)
     }
 
-    if (esPar(i)) casilla.style.backgroundColor = "brown";
-    else casilla.style.backgroundColor = "beige";
+    casilla.style.backgroundColor = esPar(i) ? "brown" : "beige"
+
     casilla.dataset.pos = casilla.textContent
     casilla.style.width = "50px";
     casilla.style.height = "50px";
     casilla.style.border = "1px solid black";
-
-
+    casilla.style.margin = "0";
     divTablero.append(casilla)
   }
 }
