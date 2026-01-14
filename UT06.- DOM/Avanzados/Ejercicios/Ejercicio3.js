@@ -1,4 +1,4 @@
-import {gameState, renderPawns, board} from './Ejercicio1.js'
+import {gameState, renderPawns} from './Ejercicio1.js'
 
 const contadorPeones = document.getElementById('contador-peones')
 
