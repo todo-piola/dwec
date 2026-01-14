@@ -1,4 +1,4 @@
-import {gameStatePeones, board} from "./Ejercicio1.js"
+import {board} from "./Ejercicio1.js"
 
 const esPar = num => num % 2 === 0;
 
@@ -23,6 +23,7 @@ createBoard(board)
 
 
 function createBoard(board) {
+  let color = true
   for (let i = 1; i <= 64; i++) {
     const casilla = document.createElement("p")
 
@@ -34,7 +35,12 @@ function createBoard(board) {
       contadorNumeros--;
     }
 
-    casilla.style.backgroundColor = esPar(i) ? "brown" : "beige"
+    casilla.style.backgroundColor = color ? "beige" : "brown";
+    color = !color;
+
+    if (i % 8 === 0) {
+      color = !color; // invierte al cambiar de fila
+    }
 
     casilla.dataset.pos = casilla.textContent
     casilla.style.width = "50px";
