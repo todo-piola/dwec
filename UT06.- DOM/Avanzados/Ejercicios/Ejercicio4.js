@@ -27,9 +27,6 @@ function createBoard(board) {
   for (let i = 1; i <= 64; i++) {
     const casilla = document.createElement("p")
 
-    casilla.textContent = arrayLetras[contadorLetras] + arrayNumeros[contadorNumeros];
-    contadorLetras--;
-
     if (contadorLetras < 0) {
       contadorLetras = 7;
       contadorNumeros--;
@@ -42,11 +39,14 @@ function createBoard(board) {
       color = !color; // invierte al cambiar de fila
     }
 
-    casilla.dataset.pos = casilla.textContent
+    casilla.dataset.pos = arrayLetras[contadorLetras] + arrayNumeros[contadorNumeros];
     casilla.style.width = "50px";
     casilla.style.height = "50px";
     casilla.style.border = "1px solid black";
     casilla.style.margin = "0";
+
     divTablero.append(casilla)
+
+    contadorLetras--;
   }
 }
