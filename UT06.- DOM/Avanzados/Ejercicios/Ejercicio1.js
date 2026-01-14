@@ -1,4 +1,4 @@
-export const gameState = {
+export const gameStatePeones = {
   peones : Array(8).fill("♙")
 }
 
@@ -15,4 +15,4 @@ export function renderPawns(gameState) {
   }
 }
 
-renderPawns(gameState)
+renderPawns(gameStatePeones)

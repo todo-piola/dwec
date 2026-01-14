@@ -1,4 +1,4 @@
-import {gameState, board} from "./Ejercicio1.js"
+import {gameStatePeones, board} from "./Ejercicio1.js"
 
 const esPar = num => num % 2 === 0;
 

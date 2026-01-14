@@ -1,21 +1,21 @@
-import {gameState, renderPawns} from './Ejercicio1.js'
+import {gameStatePeones, renderPawns} from './Ejercicio1.js'
 
 const contadorPeones = document.getElementById('contador-peones')
 
 const btnAdd = crearBotonAdd()
 const btnRemove = crearBotonEliminar()
 
-contadorPeones.textContent = gameState.peones.length
+contadorPeones.textContent = gameStatePeones.peones.length
 
 btnAdd.addEventListener('click', () => {
-    gameState.peones.push("♙")
-    renderPawns(gameState)
+    gameStatePeones.peones.push("♙")
+    renderPawns(gameStatePeones)
     renderContador()
 })
 
 btnRemove.addEventListener('click', () => {
-    gameState.peones.pop()
-    renderPawns(gameState)
+    gameStatePeones.peones.pop()
+    renderPawns(gameStatePeones)
     renderContador()
 })
 
@@ -34,5 +34,5 @@ function crearBotonEliminar() {
 }
 
 function renderContador() {
-    contadorPeones.textContent = gameState.peones.length
+    contadorPeones.textContent = gameStatePeones.peones.length
 }
