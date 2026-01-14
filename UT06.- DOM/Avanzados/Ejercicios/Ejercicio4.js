@@ -14,6 +14,7 @@ let divTablero = document.createElement("div")
 divTablero.style.display = "grid"
 divTablero.style.gridTemplateColumns = "repeat(8, 50px)"
 divTablero.style.width = "400px"
+divTablero.className = "tablero"
 
 document.body.append(divTablero)
 
