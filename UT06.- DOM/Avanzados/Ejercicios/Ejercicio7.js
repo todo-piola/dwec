@@ -4,6 +4,7 @@ let coordenadaSeleccionada = null;
 let target = ""
 export let color = null
 export let contadorMovimientos = 0
+let turnoBlancas = true
 
 const PIECES = {
   WHITE: "♙",
@@ -20,6 +21,7 @@ function movePiece(from, to, piece) {
   if(color) to.textContent = PIECES.WHITE
   else to.textContent = PIECES.BLACK
   contadorMovimientos++;
+  turnoBlancas = !turnoBlancas
 }
 
 
@@ -34,13 +36,22 @@ board.addEventListener("click", (event) => {
 
     movePiece(casillaOrigen, square, square.textContent);
     limpiarHighlights();
+    updatePanel()
     return  // importante salir del evento para que no se active otra vez el highlight una vez se ha movido la pieza
-  }
+  } else limpiarHighlights();
 
   // Si es peón...
-  if (square.textContent === PIECES.WHITE || square.textContent === PIECES.BLACK) {
+  if (square.textContent === PIECES.WHITE || square.textContent === PIECES.BLACK ) {
     const piece = square.textContent;
     color = piece === PIECES.WHITE; //color es true si el contenido de la casilla pulsada es peón blanco, si no color es false
+
+    const isWhitePiece = piece === PIECES.WHITE;
+
+    // Verificar si es el turno correcto
+    if (isWhitePiece !== turnoBlancas) {
+      console.log(`No es el turno de las ${isWhitePiece ? 'blancas' : 'negras'}`);
+      return;
+    }
 
     let nextRank = ""
     coordenadaSeleccionada = square.dataset.pos;
