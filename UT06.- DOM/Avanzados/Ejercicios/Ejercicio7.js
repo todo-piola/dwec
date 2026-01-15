@@ -1,22 +1,39 @@
-import {gameState} from "./Ejercicio6.js"
-import { handleTableroClick } from "./Ejercicio5.js"
-
 let selectedPosition = null;
+let target = ""
+let color = null
 
 board.addEventListener("click", (event) => {
   const square = event.target;
   if (!square.classList.contains("square")) return;
 
+  if(square.classList.contains("highlight")) {
+    if(color) {
+      square.textContent = "♙"
+      target.classList.remove("highlight");
+      return
+    }
+    else if(!color) {
+      square.textContent = "♟"
+      target.classList.remove("highlight");
+      return
+    }
+  }
+
   document.querySelectorAll(".highlight")
     .forEach(sq => sq.classList.remove("highlight"));
 
-  if (square.textContent === "♙") {
+  if (square.textContent === "♙" || square.textContent === "♟") {
+    let nextRank = ""
     selectedPosition = square.dataset.pos;
+    if(square.textContent === "♙") color = true
+    else color = false
 
-    const file = selectedPosition[0];
-    const nextRank = Number(selectedPosition[1]) + 1;
+    const col = selectedPosition[0];
+    const fila = selectedPosition[1];
+    if(color) nextRank = parseInt(fila) + 1;
+    else nextRank = parseInt(fila) - 1;
 
-    const target = document.querySelector(`[data-pos="${file}${nextRank}"]`);
-    if (target) target.classList.add("highlight");
+    target = document.querySelector(`[data-pos="${col}${nextRank}"]`);
+    if (target.textContent === "") target.classList.add("highlight");
   }
 });
