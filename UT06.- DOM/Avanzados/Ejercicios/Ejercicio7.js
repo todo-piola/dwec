@@ -4,12 +4,17 @@ let coordenadaSeleccionada = null;
 let target = ""
 export let color = null
 export let contadorMovimientos = 0
-let turnoBlancas = true
+export let turnoBlancas = true
 
 const PIECES = {
   WHITE: "♙",
   BLACK: "♟"
 };
+
+export function resetEstadoJuego() {
+  contadorMovimientos = 0
+  turnoBlancas = true
+}
 
 function limpiarHighlights() {
   document.querySelectorAll(".highlight")
