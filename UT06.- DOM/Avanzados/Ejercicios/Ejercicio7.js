@@ -6,6 +6,10 @@ export let color = null
 export let contadorMovimientos = 0
 export let turnoBlancas = true
 
+export let casillaOrigen = ""
+export let square = ""
+export let piece = ""
+
 const PIECES = {
   WHITE: "♙",
   BLACK: "♟"
@@ -29,15 +33,21 @@ function movePiece(from, to, piece) {
   turnoBlancas = !turnoBlancas
 }
 
-
+export function deshaceMovimiento(from, to, piece) {
+  from.textContent = piece;
+  to.textContent = "";
+  contadorMovimientos--;
+  turnoBlancas = !turnoBlancas
+  updatePanel()
+}
 
 board.addEventListener("click", (event) => {
-  const square = event.target;
+  square = event.target;
 
   if (!square.classList.contains("square")) return;
 
   if(square.classList.contains("highlight")) {
-    const casillaOrigen = document.querySelector(`[data-pos="${coordenadaSeleccionada}"]`);
+    casillaOrigen = document.querySelector(`[data-pos="${coordenadaSeleccionada}"]`);
 
     movePiece(casillaOrigen, square, square.textContent);
     limpiarHighlights();
@@ -47,7 +57,7 @@ board.addEventListener("click", (event) => {
 
   // Si es peón...
   if (square.textContent === PIECES.WHITE || square.textContent === PIECES.BLACK ) {
-    const piece = square.textContent;
+    piece = square.textContent;
     color = piece === PIECES.WHITE; //color es true si el contenido de la casilla pulsada es peón blanco, si no color es false
 
     const isWhitePiece = piece === PIECES.WHITE;

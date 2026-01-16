@@ -1,5 +1,5 @@
 import {gameState, renderPieces} from './Ejercicio6.js'
-import {resetEstadoJuego} from './Ejercicio7.js'
+import {resetEstadoJuego, deshaceMovimiento, casillaOrigen, square, piece} from './Ejercicio7.js'
 import { updatePanel } from './Ejercicio8.js'
 
 const board = document.querySelector("#board");
@@ -11,5 +11,7 @@ addEventListener("keydown", (e) => {
     renderPieces(gameState)
     resetEstadoJuego()
     updatePanel()
+  } else if(letraPulsada === "u") {
+    deshaceMovimiento(casillaOrigen, square, piece)
   }
 })
