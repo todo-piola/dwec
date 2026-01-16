@@ -1,4 +1,4 @@
-import {color, contadorMovimientos} from './Ejercicio7.js'
+import { contadorMovimientos, turnoBlancas } from './Ejercicio7.js'
 
 createPanel()
 
@@ -11,6 +11,5 @@ function createPanel() {
 
 export function updatePanel() {
   const panel = document.querySelector(".panel")
-  panel.textContent = `Turno actual: ${color ? "Negras" : "Blancas"} - Total de Movimientos: ${contadorMovimientos }`
+  panel.textContent = `Turno actual: ${turnoBlancas? "Blancas" : "Negras"} - Total de Movimientos: ${contadorMovimientos}`
 }
-
