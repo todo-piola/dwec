@@ -7,7 +7,6 @@ const arrayNumeros = [1, 2, 3, 4, 5, 6, 7, 8]
 let contadorLetras = 7
 let contadorNumeros = 7
 
-
 export let board = document.getElementById("board")
 
 board.style.display = "grid"
