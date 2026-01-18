@@ -1,3 +1,4 @@
+import {empezarPartida} from './Ejercicio10.js'
 
 const esPar = num => num % 2 === 0;
 
@@ -19,8 +20,10 @@ document.body.append(board)
 
 createBoard(board)
 
+export function createBoard(board) {
 
-function createBoard(board) {
+  if(!empezarPartida) return
+
   let color = true
   for (let i = 1; i <= 64; i++) {
     const casilla = document.createElement("p")

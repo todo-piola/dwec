@@ -1,3 +1,5 @@
+import {empezarPartida} from './Ejercicio10.js'
+import { createBoard,board } from './Ejercicio4.js'
 
 const letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
@@ -25,10 +27,18 @@ export let gameState = {
   ]
 };
 
-renderPieces(gameState);
+renderPieces(gameState); // No se renderiza
+
+document.addEventListener('empezar-partida', () => {
+  createBoard(board);
+  renderPieces(gameState);
+})
+
 
  export function renderPieces(state) {
   const tablero = document.getElementsByClassName("tablero");
+
+  if(!empezarPartida) return
 
   for(const pieza of state.pieces) {
     const casilla = document.querySelector(`[data-pos="${pieza.pos}"]`)
