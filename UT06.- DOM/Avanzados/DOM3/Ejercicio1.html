@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Ajedrez avanzado</title>
+  <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-  <div id="counter">0</div>
-  <button id="inc">+</button>
-  <button id="dec">-</button>
-  <script src="Ejercicio1.js"></script>
+  <div id="peones"></div>
+  <div id="board"></div>
+  <p id="contador-peones">0</p>
+  <script src="Ejercicio1.js" type="module"></script>
+  <script src="Ejercicio3.js" type="module"></script>
+  <script src="Ejercicio4.js" type="module"></script>
+  <script src="Ejercicio5.js" type="module"></script>
+  <script src="Ejercicio6.js" type="module"></script>
+  <script src="Ejercicio7.js" type="module"></script>
+  <script src="Ejercicio8.js" type="module"></script>
+  <script src="Ejercicio9.js" type="module"></script>
+  <script src="Ejercicio10.js" type="module"></script>
+  <form id="formulario">
+    <label for="minutos">Tiempo por Jugador (minutos):</label>
+    <input type="number" id="minutos">
+    <label for="incremento">Incremento (segundos):</label>
+    <input type="number" id="incremento">
+    <label for="color">Color</label>
+    <input type="text" id="color" placeholder="Blancas/Negras">
+    <button type="submit">Crear partida</button>
+  </form>
+  <p id="msg-error"></p>
 </body>
 </html>
