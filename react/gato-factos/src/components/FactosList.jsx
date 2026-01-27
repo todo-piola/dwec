@@ -31,9 +31,14 @@ function FactosList () {
   return (
     <div className="factos-container">
       <h1> Factos List </h1>
-      <ul>
-        {factosHTML}
-      </ul>
+      <div className="contenedor-centrado">
+        <ul>
+          {factosHTML}
+        </ul>
+      </div>
+      <div className="contenedor-btn">
+        <button className="btn-refrescar">Refrescar</button>
+      </div>
     </div>
   )
 }
