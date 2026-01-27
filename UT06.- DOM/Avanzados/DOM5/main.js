@@ -24,10 +24,6 @@ function ContadorClicks({contador, setContador}) {
   );
 }
 
-function TeGustaClicks({ contador}) {
-  if(contador >= 5) return React.createElement('h2', null, '¡Te gusta hacer Clicks!');
-  else return React.createElement('h2', null, 'Necesitas más clicks...');
-}
 
 function Titulo() {
   return React.createElement('h1', null, 'Bienvenido al torneo de ajedrez');
