@@ -1,6 +1,12 @@
 
-function App() {
+const casillaEstaVacia = (index, piezas) => !piezas[index];
 
+const hayUnEnemigoEn = (index, piezas, miColor) => {
+  const piezaEnDestino = piezas[index];
+  return piezaEnDestino && piezaEnDestino.color !== miColor;
+};
+
+function App() {
   return (
     React.createElement(
       'div',
@@ -10,18 +16,64 @@ function App() {
   )
 }
 
-function esMovimientoValidoPeon(origen, destino, color) {
-  const direccion = color ? -1 : 1;
-  const pasoSimple = origen + (8 * direccion)
-  const pasoDoble = origen + (16 * direccion)
+function esCoronacion(pieza, destino) {
+  if (pieza.tipo !== 'peon') return false;
 
-  return pasoSimple === destino || pasoDoble === destino;
+  // Blancas llegan a la fila 0 (0-7)
+  // Negras llegan a la fila 7 (56-63)
+  return (pieza.color === 'blanco' && destino <= 7) || (pieza.color === 'negro' && destino >= 56);
 }
 
-function validarMovimiento(origen, destino, pieza) {
+
+function esMovimientoValidoTorre(origen, destino, color) {
 
 }
 
+export function esMovimientoValidoPeon(origen, destino, pieza, piezas) {
+  const direccion = pieza.color === "negro" ? 1 : -1;
+  const filaInicial = pieza.color === "negro" ? 1 : 6;
+  const filaActual = Math.floor(origen / 8);
+
+  // Definimos los posibles pasos
+  const pasoSimple = origen + (8 * direccion);
+  const pasoDoble = origen + (16 * direccion);
+  const diagonalIzquierda = origen + (7 * direccion);
+  const diagonalDerecha = origen + (9 * direccion);
+
+  // REGLA 1: Caminar hacia adelante (1 casilla)
+  if (destino === pasoSimple && casillaEstaVacia(destino, piezas)) {
+    return true;
+  }
+
+  // REGLA 2: Correr al principio (2 casillas)
+  if (destino === pasoDoble &&
+    filaActual === filaInicial &&
+    casillaEstaVacia(pasoSimple, piezas) &&
+    casillaEstaVacia(pasoDoble, piezas)) {
+    return true;
+  }
+
+  // REGLA 3: Cazar en diagonal
+  if ((destino === diagonalIzquierda || destino === diagonalDerecha) &&
+    hayUnEnemigoEn(destino, piezas, pieza.color)) {
+    return true;
+  }
+
+  return false; // Si no cumple ninguna, el movimiento es ilegal
+}
+
+function validarMovimiento(origen, destino, pieza, piezas) {
+  if(!pieza) return false;
+
+  // SI la pieza seleccionada es del mismo color que la pieza a donde quiere ir, no se puede mover
+  if(piezas[destino] && piezas[destino].color === pieza.color) return false;
+
+  switch (pieza.tipo) {
+    case "peon": return esMovimientoValidoPeon(origen, destino, pieza, piezas);
+    case "torre": return esMovimientoValidoTorre(origen, destino, piezas);
+    default: return false;
+  }
+}
 
 function Pieza({ tipo, color}) {
   const iconos = {
@@ -39,44 +91,58 @@ function Pieza({ tipo, color}) {
   )
 }
 
-function Casilla({ index, pieza, onClick }) {
+function Casilla({ index, pieza, onClick, seleccionada}) {
   const fila = Math.floor(index / 8);
   const columna = index % 8;
   const esBlanca =  fila % 2 === 0 && columna % 2 === 0 || fila % 2 === 1 && columna % 2 === 1;
+  const estaSeleccionada = seleccionada === index;
 
-  // pieza será: { tipo: "peon", color: "blanco" } o undefined
   return React.createElement(
     'div',
     {
-      style: { border: "1px solid black", width: "50px", height: "50px" },
+      style: { border: "1px solid black", width: "50px", height: "50px", backgroundColor: estaSeleccionada ? "lightgray" : undefined },
       className: esBlanca ? "white" : "black",
       onClick: onClick
     },
+    // pieza será: { tipo: "peon", color: "blanco" } o undefined
     pieza ? React.createElement(Pieza, { tipo: pieza.tipo, color: pieza.color }) : null
   )
 }
 
 function Tablero() {
   const casillasTotales = Array(64).fill(null);
+
+  // 'piezas' es el valor actual (el objeto con todas las posiciones).
+  const [piezas, setPiezas] = React.useState(posicionesIniciales);
+
   let [seleccionada, setSeleccionada] = React.useState(null);
 
   const manejarClick = (index) => {
-    // seleccionada = ORIGEN **** index = DESTINO
-    if(seleccionada == null) { // Primer clic
-      setSeleccionada(index)
-      console.log(index)
+    if (seleccionada === null) {
+      if (piezas[index]) setSeleccionada(index);
     } else {
-      console.log(index)          // Segundo clic : Comprobar movimiento si es válido
-      if (validarMovimiento(seleccionada, index, posicionesIniciales[index].tipo)) {
-        const tipo = posicionesIniciales[index].tipo;
-        switch (tipo) {
-          case "peón":
+      const piezaAMover = piezas[seleccionada];
 
-        }
+      if (validarMovimiento(seleccionada, index, piezaAMover, piezas)) {
+        setPiezas(prevPiezas => {
+          const nuevasPiezas = { ...prevPiezas };
+
+          if (esCoronacion(piezaAMover, index)) {
+            // Si corona, creamos una REINA del mismo color
+            nuevasPiezas[index] = { tipo: 'reina', color: piezaAMover.color };
+          } else {
+            nuevasPiezas[index] = piezaAMover;    // Coloco la pieza en destino
+          }
+
+          delete nuevasPiezas[seleccionada]; // Borramos del origen
+          return nuevasPiezas;
+        });
+      } else {
+        console.log("Movimiento inválido para " + piezaAMover.tipo);
       }
-      setSeleccionada(null) //Limpiar selección tras el segundo clic
+      setSeleccionada(null); // Siempre limpiamos al segundo clic
     }
-  }
+  };
 
   return React.createElement(
     'div',
@@ -88,15 +154,16 @@ function Tablero() {
       }
     },
     casillasTotales.map((_, index) => {
-      // Buscamos si en este index hay algo en nuestro estado de piezas
-      const datosPieza = posicionesIniciales[index];
+      // Buscamos si en este index hay alguna pieza en el estado de piezas
+      const pieza = piezas[index]; // Puede ser undefined si no hay pieza
 
       return React.createElement(
         Casilla,
         {
           key: Number(index),
           index: index,
-          pieza: datosPieza,
+          pieza: pieza,
+          seleccionada: seleccionada,
           onClick: () => manejarClick(Number(index))
         });
     })
@@ -110,6 +177,7 @@ board.style.paddingTop = "70px";
 root.render(React.createElement(App));
 
 const posicionesIniciales = {
+  /*
   // --- FILA 0: Piezas Negras (Mayores) ---
   0: { tipo: "torre", color: "negro" },
   1: { tipo: "caballo", color: "negro" },
@@ -119,6 +187,7 @@ const posicionesIniciales = {
   5: { tipo: "alfil", color: "negro" },
   6: { tipo: "caballo", color: "negro" },
   7: { tipo: "torre", color: "negro" },
+  */
 
   // --- FILA 1: Peones Negros ---
   8: { tipo: "peon", color: "negro" },
@@ -142,6 +211,7 @@ const posicionesIniciales = {
   54: { tipo: "peon", color: "blanco" },
   55: { tipo: "peon", color: "blanco" },
 
+  /*
   // --- FILA 7: Piezas Blancas (Mayores) ---
   56: { tipo: "torre", color: "blanco" },
   57: { tipo: "caballo", color: "blanco" },
@@ -151,4 +221,6 @@ const posicionesIniciales = {
   61: { tipo: "alfil", color: "blanco" },
   62: { tipo: "caballo", color: "blanco" },
   63: { tipo: "torre", color: "blanco" }
+
+   */
 };
