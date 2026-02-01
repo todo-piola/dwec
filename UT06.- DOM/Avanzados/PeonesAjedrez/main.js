@@ -1,10 +1,13 @@
 
 const casillaEstaVacia = (index, piezas) => !piezas[index];
 
-const hayUnEnemigoEn = (index, piezas, miColor) => {
-  const piezaEnDestino = piezas[index];
-  return piezaEnDestino && piezaEnDestino.color !== miColor;
-};
+function esCoronacion(pieza, destino) {
+  if (pieza.tipo !== 'peon') return false;
+
+  // Blancas llegan a la fila 0 (0-7)
+  // Negras llegan a la fila 7 (56-63)
+  return (pieza.color === 'blanco' && destino <= 7) || (pieza.color === 'negro' && destino >= 56);
+}
 
 function App() {
   return (
@@ -16,20 +19,7 @@ function App() {
   )
 }
 
-function esCoronacion(pieza, destino) {
-  if (pieza.tipo !== 'peon') return false;
-
-  // Blancas llegan a la fila 0 (0-7)
-  // Negras llegan a la fila 7 (56-63)
-  return (pieza.color === 'blanco' && destino <= 7) || (pieza.color === 'negro' && destino >= 56);
-}
-
-
-function esMovimientoValidoTorre(origen, destino, color) {
-
-}
-
-export function esMovimientoValidoPeon(origen, destino, pieza, piezas) {
+function esMovimientoValidoPeon(origen, destino, pieza, piezas) {
   const direccion = pieza.color === "negro" ? 1 : -1;
   const filaInicial = pieza.color === "negro" ? 1 : 6;
   const filaActual = Math.floor(origen / 8);
@@ -55,7 +45,7 @@ export function esMovimientoValidoPeon(origen, destino, pieza, piezas) {
 
   // REGLA 3: Cazar en diagonal
   if ((destino === diagonalIzquierda || destino === diagonalDerecha) &&
-    hayUnEnemigoEn(destino, piezas, pieza.color)) {
+    piezas[destino] && piezas[destino].color !== pieza.color) { // Compruebo que haya enemigo en la casilla destino
     return true;
   }
 
@@ -65,13 +55,16 @@ export function esMovimientoValidoPeon(origen, destino, pieza, piezas) {
 function validarMovimiento(origen, destino, pieza, piezas) {
   if(!pieza) return false;
 
-  // SI la pieza seleccionada es del mismo color que la pieza a donde quiere ir, no se puede mover
-  if(piezas[destino] && piezas[destino].color === pieza.color) return false;
+  // Si la pieza seleccionada es del mismo color que la pieza a donde quiere ir, no se puede mover
+  if (piezas[destino] && piezas[destino].color === pieza.color) {
+    return false;
+  }
 
   switch (pieza.tipo) {
     case "peon": return esMovimientoValidoPeon(origen, destino, pieza, piezas);
-    case "torre": return esMovimientoValidoTorre(origen, destino, piezas);
-    default: return false;
+    default:
+      console.log("Movimiento inválido para " + pieza.tipo);
+      return false;
   }
 }
 
@@ -94,7 +87,9 @@ function Pieza({ tipo, color}) {
 function Casilla({ index, pieza, onClick, seleccionada}) {
   const fila = Math.floor(index / 8);
   const columna = index % 8;
-  const esBlanca =  fila % 2 === 0 && columna % 2 === 0 || fila % 2 === 1 && columna % 2 === 1;
+  // Patrón de tablero: las casillas son blancas cuando ambas coordenadas son afines
+  const esBlanca =  fila % 2 === 0 && columna % 2 === 0 ||
+                            fila % 2 === 1 && columna % 2 === 1;
   const estaSeleccionada = seleccionada === index;
 
   return React.createElement(
@@ -115,32 +110,39 @@ function Tablero() {
   // 'piezas' es el valor actual (el objeto con todas las posiciones).
   const [piezas, setPiezas] = React.useState(posicionesIniciales);
 
+  // controlo el orden de juego según color
+  let [turno, setTurno] = React.useState("blanco");
+
   let [seleccionada, setSeleccionada] = React.useState(null);
 
   const manejarClick = (index) => {
+    // Primer clic: selecciona la pieza del turno actual
     if (seleccionada === null) {
-      if (piezas[index]) setSeleccionada(index);
+      if (piezas[index] && piezas[index].color === turno) {
+        setSeleccionada(index);
+      }
     } else {
+      // Segundo clic: intentar mover la pieza
       const piezaAMover = piezas[seleccionada];
 
       if (validarMovimiento(seleccionada, index, piezaAMover, piezas)) {
-        setPiezas(prevPiezas => {
-          const nuevasPiezas = { ...prevPiezas };
+        const nuevasPiezas = { ...piezas }; // Copia del estado actual para no mutarlo directamente
 
-          if (esCoronacion(piezaAMover, index)) {
-            // Si corona, creamos una REINA del mismo color
-            nuevasPiezas[index] = { tipo: 'reina', color: piezaAMover.color };
-          } else {
-            nuevasPiezas[index] = piezaAMover;    // Coloco la pieza en destino
-          }
+        if (esCoronacion(piezaAMover, index)) {
+          nuevasPiezas[index] = { tipo: 'reina', color: piezaAMover.color };
+        } else {
+          nuevasPiezas[index] = piezaAMover; // Añado la pieza que muevo a la casilla destino
+        }
 
-          delete nuevasPiezas[seleccionada]; // Borramos del origen
-          return nuevasPiezas;
-        });
+        delete nuevasPiezas[seleccionada]; // Elimino la pieza del origen
+
+        setPiezas(nuevasPiezas)
+        setTurno(turno === 'blanco' ? 'negro' : 'blanco'); // Si es válido cambia el turno
+
       } else {
-        console.log("Movimiento inválido para " + piezaAMover.tipo);
+          console.log("Movimiento inválido para " + piezaAMover.tipo);
       }
-      setSeleccionada(null); // Siempre limpiamos al segundo clic
+      setSeleccionada(null); // Siempre se limpia el segundo clic
     }
   };
 
@@ -177,17 +179,15 @@ board.style.paddingTop = "70px";
 root.render(React.createElement(App));
 
 const posicionesIniciales = {
-  /*
   // --- FILA 0: Piezas Negras (Mayores) ---
-  0: { tipo: "torre", color: "negro" },
-  1: { tipo: "caballo", color: "negro" },
-  2: { tipo: "alfil", color: "negro" },
-  3: { tipo: "reina", color: "negro" },
-  4: { tipo: "rey", color: "negro" },
-  5: { tipo: "alfil", color: "negro" },
-  6: { tipo: "caballo", color: "negro" },
-  7: { tipo: "torre", color: "negro" },
-  */
+  // 0: { tipo: "torre", color: "negro" },
+  // 1: { tipo: "caballo", color: "negro" },
+  // 2: { tipo: "alfil", color: "negro" },
+  // 3: { tipo: "reina", color: "negro" },
+  // 4: { tipo: "rey", color: "negro" },
+  // 5: { tipo: "alfil", color: "negro" },
+  // 6: { tipo: "caballo", color: "negro" },
+  // 7: { tipo: "torre", color: "negro" },
 
   // --- FILA 1: Peones Negros ---
   8: { tipo: "peon", color: "negro" },
@@ -211,16 +211,13 @@ const posicionesIniciales = {
   54: { tipo: "peon", color: "blanco" },
   55: { tipo: "peon", color: "blanco" },
 
-  /*
   // --- FILA 7: Piezas Blancas (Mayores) ---
-  56: { tipo: "torre", color: "blanco" },
-  57: { tipo: "caballo", color: "blanco" },
-  58: { tipo: "alfil", color: "blanco" },
-  59: { tipo: "reina", color: "blanco" },
-  60: { tipo: "rey", color: "blanco" },
-  61: { tipo: "alfil", color: "blanco" },
-  62: { tipo: "caballo", color: "blanco" },
-  63: { tipo: "torre", color: "blanco" }
-
-   */
+  // 56: { tipo: "torre", color: "blanco" },
+  // 57: { tipo: "caballo", color: "blanco" },
+  // 58: { tipo: "alfil", color: "blanco" },
+  // 59: { tipo: "reina", color: "blanco" },
+  // 60: { tipo: "rey", color: "blanco" },
+  // 61: { tipo: "alfil", color: "blanco" },
+  // 62: { tipo: "caballo", color: "blanco" },
+  // 63: { tipo: "torre", color: "blanco" }
 };
