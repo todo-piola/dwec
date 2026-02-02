@@ -16,26 +16,46 @@ const preguntasTech = {
     ["Recursión", "Iteración infinita", "Clausura (Closure)", "Callback"]
 };
 
-const pregunta = document.getElementById("#pregunta");
-const respuestas = document.querySelectorAll("#respuesta1, #respuesta2, #respuesta3, #respuesta4");
-const btnSiguiente = document.getElementById("#siguiente");
+const pregunta = document.getElementById("pregunta");
+const textos = document.querySelectorAll("#texto-respuesta1, #texto-respuesta2, #texto-respuesta3, #texto-respuesta4");
+const btnSiguiente = document.getElementById("siguiente");
 
 let contador = 0
 let arrayPreguntas = Object.keys(preguntasTech);
 let arrayRespuestas = Object.values(preguntasTech);
 
 document.addEventListener("DOMContentLoaded", () => {
-  while(contador < arrayPreguntas.length) {
+
     mostrarPregunta(pregunta, arrayRespuestas, contador);
 
-    contador++
-  }
+    btnSiguiente.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const seleccionado = document.querySelector('input[name="respuesta"]:checked');
+
+      if (!seleccionado) {
+        alert("Por favor selecciona una respuesta");
+        return;
+      }
+
+      contador++
+
+      if(contador < arrayPreguntas.length) {
+        mostrarPregunta(pregunta, arrayRespuestas, contador);
+        seleccionado.checked = false;
+      } else {
+        alert("Quiz terminado")
+      }
+
+      e.reset()
+    })
+
 });
 
-function mostrarPregunta(pregunta, arrayRespuestas, contador){
+function mostrarPregunta(){
   pregunta.textContent = arrayPreguntas[contador];
 
   for (let i = 0; i < 4; i++) {
-    respuestas[i].textContent = arrayRespuestas[contador][i];
+    textos[i].textContent = arrayRespuestas[contador][i];
   }
 }
