@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <label for="nombreMovimiento">
+    <input type="text" id="nombreMovimiento" placeholder="Buscar por coordenada"/>
+  </label>
+
+  <div style="display: flex; flex-direction: column; margin-top: 20px; width: 200px; gap: 10px;">
+    <button id="aperturas10" data-modo="top10">Mostrar 10 aperturas</button>
+    <button id="aperturas1000" data-modo="jugadas1000">Mostrar aperturas con +1000 partidas</button>
+  </div>
+  
+  <ul id="lista"></ul>
+  
+  <script src="ejercicio6.js" type="module"></script>
+</body>
+</html>
