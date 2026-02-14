@@ -22,10 +22,23 @@ function ListaMovimientos({ partidas }) {
   );
 }
 
+function BuscadorMovimientos({ setBusqueda, partidas }) {
+  return React.createElement(
+    "input",
+    { type: "text", placeholder: "Filtrar movimiento", onChange: (e) => { setBusqueda(e.target.value) }}
+  )
+}
+
 function App() {
   const [partidas, setPartidas] = React.useState([]);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [busqueda, setBusqueda] = React.useState("");
+
+  const partidasFiltradas = partidas.filter(p =>
+    p.san.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
   // La función solo se encarga de la lógica
   async function cargarDatos() {
     setLoading(true)
@@ -37,7 +50,7 @@ function App() {
       const datos = await respuesta.json();
 
       if (datos.moves) {
-        setPartidas(datos.moves.slice(0, 5));
+        setPartidas(datos.moves);
       }
 
     } catch (err) {
@@ -48,13 +61,13 @@ function App() {
     }
   }
 
-  // EL RETURN SIEMPRE AL FINAL DE LA FUNCIÓN APP
   return React.createElement(
     "div",
     null,
     React.createElement("h2", null, "Movimientos populares"),
     React.createElement(BotonCargar, { onClick: cargarDatos , loading: loading}),
-    !loading && React.createElement(ListaMovimientos, { partidas: partidas }),
+    !loading && React.createElement(ListaMovimientos, { partidas: partidasFiltradas }),
+    React.createElement(BuscadorMovimientos, { setBusqueda: setBusqueda, partidas: partidas }),
     React.createElement(ErrorMensaje, { error: error })
   );
 }
