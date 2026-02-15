@@ -1,0 +1,58 @@
+[
+  {
+    "san": "e4",
+    "name": "Apertura de peón de rey",
+    "white": 1250430,
+    "black": 950200,
+    "draws": 150200
+  },
+  {
+    "san": "d4",
+    "name": "Apertura de peón de dama",
+    "white": 980500,
+    "black": 720300,
+    "draws": 110400
+  },
+  {
+    "san": "Nf3",
+    "name": "Apertura Zukertort / Reti",
+    "white": 450200,
+    "black": 320100,
+    "draws": 85000
+  },
+  {
+    "san": "c4",
+    "name": "Apertura Inglesa",
+    "white": 380150,
+    "black": 290400,
+    "draws": 62000
+  },
+  {
+    "san": "g3",
+    "name": "Apertura Benko",
+    "white": 120300,
+    "black": 95000,
+    "draws": 25000
+  },
+  {
+    "san": "f4",
+    "name": "Apertura Bird",
+    "white": 85000,
+    "black": 72000,
+    "draws": 12000
+  },
+  {
+    "san": "Nc3",
+    "name": "Apertura Dunst",
+    "white": 45000,
+    "black": 38000,
+    "draws": 8000
+  },
+  {
+    "san": "b3",
+    "name": "Ataque Nimzo-Larsen",
+    "white": 32000,
+    "black": 25000,
+    "draws": 5000
+  }
+]
