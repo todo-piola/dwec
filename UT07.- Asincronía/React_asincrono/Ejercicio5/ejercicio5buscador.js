@@ -1,53 +1,50 @@
 // noinspection JSUnresolvedReference
 
-async function cargarDatos(partidas, setPartidas) {
-    //setError("");
-
-    if(partidas.length === 0) {
-      try {
-        const respuesta = await fetch("https://explorer.lichess.ovh/masters");
-        if (!respuesta.ok) throw new Error("Error en la petición");
-
-        const datos = await respuesta.json();
-
-        if (datos.moves) {
-          setPartidas(datos.moves);
-        }
-
-      } catch (err) {
-        // setError("No se pudieron cargar los movimientos.");
-        console.error(err);
-      }
-    }
+async function obtenerMovimientos(busqueda) {
+  const respuesta = await fetch("https://explorer.lichess.ovh/masters");
+  if (!respuesta.ok) throw new Error("Error en la petición");
+  const datos = await respuesta.json();
+  return datos.moves || [];
 }
 
-function BuscadorPartidas({ busqueda, setBusqueda, partidas }) {
-  partidas.filter(p => p.san.toLowerCase().includes(busqueda.toLowerCase()))
-
+function BuscadorPartidas({ busqueda, setBusqueda }) {
   return React.createElement(
     "input",
-    { type: "text", placeholder: "Filtrar partida", onChange: (e) => { setBusqueda(e.target.value) }}
+    {
+      type: "text",
+      placeholder: "Filtrar partida...",
+      value: busqueda,
+      onChange: (e) => { setBusqueda(e.target.value) }
+    }
   )
+}
+
+function ListaDinamica({ busqueda, partidasFiltradas }) {
+  if (!busqueda) return null;
+
+  return React.createElement("ul", null, partidasFiltradas.map((partida, index) =>
+      React.createElement("li", { key: index }, `${partida.san}`)))
 }
 
 function App() {
   const [partidas, setPartidas] = React.useState([]);
   const [busqueda, setBusqueda] = React.useState("");
-  const [error, setError] = React.useState("");
 
-  cargarDatos(partidas, setPartidas);
+  React.useEffect(() => { // useEffect asegura que la API solo se llame AL MONTAR el componente
+    obtenerMovimientos()
+      .then(moves => setPartidas(moves))
+      .catch(err => console.error(err));
+  }, []); // El array vacío como segundo argumento hace que el efecto solo se ejecute una vez
 
-  return React.createElement(
-    "div",
-    null,
+  const partidasFiltradas = partidas.filter(p =>             //Filtrado dinámico se ejecuta en cada render
+    p.san.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
+  return React.createElement("div", null,
+
     React.createElement("h1", null, "Buscador de partidas"),
-    React.createElement(BuscadorPartidas, { busqueda: busqueda, setBusqueda: setBusqueda, partidas: partidas }),
-    React.createElement(
-      "ul",
-      null,
-      partidas.map((partida, index) =>
-        React.createElement("li", { key: index }, `${partida.san}`)
-      )
+    React.createElement(BuscadorPartidas, { busqueda: busqueda, setBusqueda: setBusqueda }),
+    React.createElement(ListaDinamica, {busqueda: busqueda, partidasFiltradas: partidasFiltradas}
     )
   )
 }
