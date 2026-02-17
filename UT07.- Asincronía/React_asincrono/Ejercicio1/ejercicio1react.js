@@ -36,12 +36,11 @@ function App() {
               {key: index},
             `${partida.san}`
             )
-
-
           )
         )
+
       )
-  )
+  );
 }
 
 function botonCargar({onClick}) {

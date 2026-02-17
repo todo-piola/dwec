@@ -7,7 +7,9 @@ async function obtenerDatos() {
   return datos || []
 }
 
-function BotonMovimientos({loading, setLoading, terminado, setTerminado}) {
+function BotonMovimientos({loading, setLoading, terminado, setTerminado, partidas}) {
+  if(partidas.length > 0) return
+
   const onClickHandler = async() => {
     setTerminado(true)
     await esperar(3000).then(() => setLoading(true))
@@ -43,7 +45,13 @@ function App() {
   }, [loading]);
 
   return React.createElement("div", null,
-      React.createElement(BotonMovimientos, { loading: loading, setLoading: setLoading, terminado: terminado, setTerminado: setTerminado }),
+      React.createElement(BotonMovimientos, {
+        loading: loading,
+        setLoading: setLoading,
+        terminado: terminado,
+        setTerminado: setTerminado,
+        partidas: partidas
+      }),
       React.createElement("ul", null, partidas.map((partida, index) =>
         React.createElement("li", { key: index }, `${partida.san} ${partida.name}`))),
       React.createElement("p", null, terminado ? "Cargando..." : "")

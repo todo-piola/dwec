@@ -3,8 +3,7 @@
 
 async function obtenerDatos() {
   const respuesta = await fetch("movimientos.json")
-  const datos = await respuesta.json()
-  return datos || []
+  return await respuesta.json()
 }
 
 function MensajeCargando({ loading }) {
