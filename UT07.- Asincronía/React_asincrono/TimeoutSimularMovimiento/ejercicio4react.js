@@ -4,18 +4,18 @@ function BotonSimular({setHistorial, contador, setContador, movimientos, mensaje
 
   const enProgreso = mensaje === "Simulando movimiento..."
 
-  const esperar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
   const onClick = async () => {
     if (contador < movimientos.length) {
       setMensaje("Simulando movimiento...");
-      await esperar(2000);
-      setMensaje("Movimiento simulado");
 
-      const nuevoMovimiento = `Movimiento ${contador+1}: ${movimientos[contador]}`;
+      setTimeout(() => {
+        setMensaje("Movimiento simulado");
 
-      setHistorial((prevHistorial) => [...prevHistorial, nuevoMovimiento]); // Añado el nuevo movimiento al final del array anterior
-      setContador(contador + 1)
+        const nuevoMovimiento = `Movimiento ${contador+1}: ${movimientos[contador]}`;
+
+        setHistorial((prevHistorial) => [...prevHistorial, nuevoMovimiento]); // Añado el nuevo movimiento al final del array anterior
+        setContador(contador + 1)
+      }, 1000)
     }
   }
 

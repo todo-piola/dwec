@@ -2,7 +2,6 @@
 
 async function obtenerMovimientos(busqueda) {
   const respuesta = await fetch("https://explorer.lichess.ovh/masters");
-  if (!respuesta.ok) throw new Error("Error en la petición");
   const datos = await respuesta.json();
   return datos.moves || [];
 }
@@ -30,10 +29,12 @@ function App() {
   const [partidas, setPartidas] = React.useState([]);
   const [busqueda, setBusqueda] = React.useState("");
 
-  React.useEffect(() => { // useEffect asegura que la API solo se llame AL MONTAR el componente
-    obtenerMovimientos()
-      .then(moves => setPartidas(moves))
-      .catch(err => console.error(err));
+  React.useEffect(() => {// useEffect asegura que la API solo se llame AL MONTAR el componente
+    setTimeout(() => {
+      obtenerMovimientos()
+        .then(moves => setPartidas(moves))
+        .catch(err => console.error(err))
+    }, 3000);
   }, []); // El array vacío como segundo argumento hace que el efecto solo se ejecute una vez
 
   const partidasFiltradas = partidas.filter(p =>             //Filtrado dinámico se ejecuta en cada render
