@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen RA7 – Asincronía</title>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!---
+    Ejercicio 6 escrito:
+    Cargar la información de manera asíncrona nos permite controlar mejor el flujo de datos, manejar los errores de manera más eficiente
+    y mejorar la experiencia del usuario al no bloquear la interfaz mientras se espera la respuesta del servidor. Además, facilita la integración con APIs externas.
+    El ejemplo que podemos ver en el ajedrez es cuando cargamos la la información de la partida previamente antes de realizar ninguna acción concreta.
+   De esta manera, el usuario puede ver la información de la partida sin tener que esperar a que se cargue cada vez que se realiza un acción.
+    -->
+  <!-- EJERCICIO 1 (DOM) -->
+  <section id="dom-section">
+    <h2>Partidas (DOM)</h2>
+	<button id="load">Cargar partidas</button>
+    <ul id="dom-list"></ul>
+  </section>
+
+  <!-- EJERCICIOS 2–5 (React) -->
+  <section id="react-section">
+    <!-- <h2>Aplicación React</h2> -->
+    <div id="root"></div>
+  </section>
+
+  <!-- React por CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
