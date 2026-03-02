@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "white": "Kasparov",
+    "black": "Karpov",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6"]
+  },
+  {
+    "id": 2,
+    "white": "Fischer",
+    "black": "Spassky",
+    "moves": ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4"]
+  },
+  {
+    "id": 3,
+    "white": "Magnus Carlsen",
+    "black": "Anand",
+    "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4"]
+  },
+  {
+    "id": 4,
+    "white": "Kasparov",
+    "black": "Anand",
+    "moves": ["c4", "e5", "Nc3", "Nf6", "g3", "Bb4"]
+  },
+  {
+    "id": 5,
+    "white": "Caruana",
+    "black": "Magnus Carlsen",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"]
+  },
+  {
+    "id": 6,
+    "white": "Polgar",
+    "black": "Kasparov",
+    "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6"]
+  },
+  {
+    "id": 7,
+    "white": "Karpov",
+    "black": "Fischer",
+    "moves": ["e4", "c6", "d4", "d5", "Nc3", "dxe4"]
+  },
+  {
+    "id": 8,
+    "white": "Anand",
+    "black": "Topalov",
+    "moves": ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7"]
+  },
+  {
+    "id": 9,
+    "white": "Magnus Carlsen",
+    "black": "Nepomniachtchi",
+    "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6"]
+  },
+  {
+    "id": 10,
+    "white": "Kasparov",
+    "black": "Short",
+    "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6"]
+  },
+  {
+    "id": 11,
+    "white": "Fischer",
+    "black": "Tal",
+    "moves": ["c4", "e5", "Nc3", "Nf6", "g3", "d5"]
+  },
+  {
+    "id": 12,
+    "white": "Caruana",
+    "black": "Anand",
+    "moves": ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4"]
+  },
+  {
+    "id": 13,
+    "white": "Topalov",
+    "black": "Kasparov",
+    "moves": ["e4", "e6", "d4", "d5", "Nc3", "Bb4"]
+  },
+  {
+    "id": 14,
+    "white": "Magnus Carlsen",
+    "black": "So",
+    "moves": ["c4", "e5", "Nc3", "Nf6", "Nf3", "Nc6"]
+  },
+  {
+    "id": 15,
+    "white": "Anand",
+    "black": "Kramnik",
+    "moves": ["d4", "d5", "c4", "c6", "Nc3", "Nf6"]
+  }
+]
